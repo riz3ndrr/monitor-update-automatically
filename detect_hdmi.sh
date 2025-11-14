@@ -4,8 +4,12 @@ hdmi="HDMI-2"
 
 if xrandr | grep -E -q "HDMI-2 connected"; then
   prev=1
+  echo "HDMI Connected to 2nd Monitor"
+  $HOME/Scripts/update_monitor/dual_mon.sh
 else
   prev=0
+  echo "HDMI Disconnected, using only laptop monitor"
+  $HOME/Scripts/update_monitor/single_mon.sh
 fi
 
 while true; do
@@ -18,13 +22,13 @@ while true; do
   if [ "$cur" -ne "$prev" ]; then
     if [ $cur -eq 1 ]; then
       echo "HDMI Connected to 2nd Monitor"
-      ./dual_mon.sh
+      $HOME/Scripts/update_monitor/dual_mon.sh
     elif [ $cur -eq 0 ]; then
       echo "HDMI Disconnected, using only laptop monitor"
-      ./single_mon.sh
+      $HOME/Scripts/update_monitor/single_mon.sh
     fi
 
     prev=$cur
   fi
-  sleep 5
+  sleep 7
 done
